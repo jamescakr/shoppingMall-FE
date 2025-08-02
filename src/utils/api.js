@@ -1,11 +1,12 @@
 import axios from "axios";
 // 상황따라 주소 다름
-// const LOCAL_BACKEND = process.env.REACT_APP_LOCAL_BACKEND;
-const PROD_BACKEND = process.env.REACT_APP_PROD_BACKEND;
 // const BACKEND_PROXY = process.env.REACT_APP_BACKEND_PROXY;
 // console.log("proxy", BACKEND_PROXY);
+const LOCAL_BACKEND = process.env.REACT_APP_LOCAL_BACKEND;
+const PROD_BACKEND = process.env.REACT_APP_PROD_BACKEND;
+
 const api = axios.create({
-  baseURL: LOCAL_BACKEND,
+  baseURL: process.env.NODE_ENV === "production" ? PROD_BACKEND : LOCAL_BACKEND, // 자동으로 개발 중에는 LOCAL, 배포 시엔 PROD 사용됨
   headers: {
     "Content-Type": "application/json",
     authorization: `Bearer ${sessionStorage.getItem("token")}`,
