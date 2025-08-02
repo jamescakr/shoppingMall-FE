@@ -9,7 +9,10 @@ export const loginWithEmail = createAsyncThunk(
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const response = await api.post("/auth/login", { email, password });
-      return response.data;
+      const { token, user } = response.data;
+      sessionStorage.setItem("token", token);
+      api.defaults.headers.authorization = `Bearer ${token}`;
+      return { user };
     } catch (error) {
       return rejectWithValue(error.error);
     }
