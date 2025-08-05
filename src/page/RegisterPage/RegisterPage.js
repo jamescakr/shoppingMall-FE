@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { Container, Form, Button, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
 import "./style/register.style.css";
 
-import { registerUser } from "../../features/user/userSlice";
+import { clearErrors, registerUser } from "../../features/user/userSlice";
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(clearErrors());
+  }, [dispatch]);
+
   const [formData, setFormData] = useState({
     email: "",
     name: "",
