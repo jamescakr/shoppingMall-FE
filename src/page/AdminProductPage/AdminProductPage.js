@@ -25,16 +25,7 @@ const AdminProductPage = () => {
 
   const [mode, setMode] = useState("new");
 
-  const tableHeader = [
-    "#",
-    "Sku",
-    "Name",
-    "Price",
-    "Stock",
-    "Image",
-    "Status",
-    "",
-  ];
+  const tableHeader = ["#", "Sku", "Name", "Price", "Stock", "Image", "Status", ""];
 
   //상품리스트 가져오기 (url쿼리 맞춰서)
 
@@ -53,7 +44,9 @@ const AdminProductPage = () => {
 
   const handleClickNewItem = () => {
     //new 모드로 설정하고
+    setMode("new");
     // 다이얼로그 열어주기
+    setShowDialog(true);
   };
 
   const handlePageClick = ({ selected }) => {
