@@ -9,14 +9,8 @@ export const loginWithEmail = createAsyncThunk(
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const response = await api.post("/auth/login", { email, password });
-
-      // 강의에 나온방법
       sessionStorage.setItem("token", response.data.token);
       return response.data;
-      // const { token, user } = response.data;
-      // sessionStorage.setItem("token", token);
-      // api.defaults.headers.authorization = `Bearer ${token}`;
-      // return { user };
     } catch (error) {
       return rejectWithValue(error.error);
     }
@@ -28,7 +22,7 @@ export const loginWithGoogle = createAsyncThunk(
   async (token, { rejectWithValue }) => {}
 );
 
-export const logout = () => (dispatch) => {};
+// export const logout = () => (dispatch) => {};
 export const registerUser = createAsyncThunk(
   "user/registerUser",
   async ({ email, name, password, navigate }, { dispatch, rejectWithValue }) => {
@@ -80,7 +74,14 @@ const userSlice = createSlice({
       state.loginError = null;
       state.registrationError = null;
     },
+    logout: (state) => {
+      state.user = null;
+      state.loginError = null;
+      sessionStorage.removeItem("token");
+      delete api.defaults.headers.authorization;
+    },
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state) => {
@@ -110,5 +111,5 @@ const userSlice = createSlice({
       });
   },
 });
-export const { clearErrors } = userSlice.actions;
+export const { clearErrors, logout } = userSlice.actions;
 export default userSlice.reducer;

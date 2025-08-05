@@ -39,6 +39,7 @@ const Navbar = ({ user }) => {
   };
   const handleLogout = () => {
     dispatch(logout());
+    navigate("/login");
   };
   return (
     <div>
@@ -47,16 +48,9 @@ const Navbar = ({ user }) => {
           <div className="search display-space-between w-100">
             <div>
               <FontAwesomeIcon className="search-icon" icon={faSearch} />
-              <input
-                type="text"
-                placeholder="제품검색"
-                onKeyPress={onCheckEnter}
-              />
+              <input type="text" placeholder="제품검색" onKeyPress={onCheckEnter} />
             </div>
-            <button
-              className="closebtn"
-              onClick={() => setShowSearchBox(false)}
-            >
+            <button className="closebtn" onClick={() => setShowSearchBox(false)}>
               &times;
             </button>
           </div>
@@ -88,9 +82,7 @@ const Navbar = ({ user }) => {
             {user ? (
               <div onClick={handleLogout} className="nav-icon">
                 <FontAwesomeIcon icon={faUser} />
-                {!isMobile && (
-                  <span style={{ cursor: "pointer" }}>로그아웃</span>
-                )}
+                {!isMobile && <span style={{ cursor: "pointer" }}>로그아웃</span>}
               </div>
             ) : (
               <div onClick={() => navigate("/login")} className="nav-icon">
@@ -106,10 +98,7 @@ const Navbar = ({ user }) => {
                 })`}</span>
               )}
             </div>
-            <div
-              onClick={() => navigate("/account/purchase")}
-              className="nav-icon"
-            >
+            <div onClick={() => navigate("/account/purchase")} className="nav-icon">
               <FontAwesomeIcon icon={faBox} />
               {!isMobile && <span style={{ cursor: "pointer" }}>내 주문</span>}
             </div>
@@ -138,11 +127,7 @@ const Navbar = ({ user }) => {
         {!isMobile && ( // admin페이지에서 같은 search-box스타일을 쓰고있음 그래서 여기서 서치박스 안보이는것 처리를 해줌
           <div className="search-box landing-search-box ">
             <FontAwesomeIcon icon={faSearch} />
-            <input
-              type="text"
-              placeholder="제품검색"
-              onKeyPress={onCheckEnter}
-            />
+            <input type="text" placeholder="제품검색" onKeyPress={onCheckEnter} />
           </div>
         )}
       </div>
