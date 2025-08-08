@@ -5,6 +5,7 @@ import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductList } from "../../features/product/productSlice";
 import ReactPaginate from "react-paginate";
+import { ColorRing } from "react-loader-spinner";
 
 const LandingPage = () => {
   const dispatch = useDispatch();
@@ -26,47 +27,60 @@ const LandingPage = () => {
 
   return (
     <Container>
-      <Row>
-        {productList.length > 0 ? (
-          productList.map((item) => (
-            <Col md={3} sm={12} key={item._id}>
-              <ProductCard item={item} />
-            </Col>
-          ))
-        ) : (
-          <div className="text-align-center empty-bag">
-            {name === "" ? (
-              <h2>등록된 상품이 없습니다!</h2>
-            ) : (
-              <h2>{name}과 일치한 상품이 없습니다!`</h2>
-            )}
-          </div>
-        )}
-      </Row>
-
-      {totalPageNum > 1 && (
-        <div className="display-center mb-5">
-          <ReactPaginate
-            pageCount={totalPageNum}
-            forcePage={page - 1}
-            onPageChange={handlePageClick}
-            nextLabel="Next >"
-            previousLabel="< Previous"
-            pageRangeDisplayed={5}
-            renderOnZeroPageCount={null}
-            containerClassName="pagination display-center list-style-none"
-            pageClassName="page-item"
-            pageLinkClassName="page-link"
-            previousClassName="page-item"
-            previousLinkClassName="page-link"
-            nextClassName="page-item"
-            nextLinkClassName="page-link"
-            breakLabel="..."
-            breakClassName="page-item"
-            breakLinkClassName="page-link"
-            activeClassName="active"
+      {loading ? (
+        <div style={{ display: "flex", justifyContent: "center", padding: 40 }}>
+          <ColorRing
+            visible={true}
+            height={300}
+            width={300}
+            ariaLabel="landing-page-loading"
           />
         </div>
+      ) : (
+        <>
+          <Row>
+            {productList.length > 0 ? (
+              productList.map((item) => (
+                <Col md={3} sm={12} key={item._id}>
+                  <ProductCard item={item} />
+                </Col>
+              ))
+            ) : (
+              <div className="text-align-center empty-bag">
+                {name === "" ? (
+                  <h2>등록된 상품이 없습니다!</h2>
+                ) : (
+                  <h2>{name}과 일치한 상품이 없습니다!</h2>
+                )}
+              </div>
+            )}
+          </Row>
+
+          {totalPageNum > 1 && (
+            <div className="display-center mb-5">
+              <ReactPaginate
+                pageCount={totalPageNum}
+                forcePage={page - 1}
+                onPageChange={handlePageClick}
+                nextLabel="Next >"
+                previousLabel="< Previous"
+                pageRangeDisplayed={5}
+                renderOnZeroPageCount={null}
+                containerClassName="pagination display-center list-style-none"
+                pageClassName="page-item"
+                pageLinkClassName="page-link"
+                previousClassName="page-item"
+                previousLinkClassName="page-link"
+                nextClassName="page-item"
+                nextLinkClassName="page-link"
+                breakLabel="..."
+                breakClassName="page-item"
+                breakLinkClassName="page-link"
+                activeClassName="active"
+              />
+            </div>
+          )}
+        </>
       )}
     </Container>
   );

@@ -144,6 +144,7 @@ const Navbar = ({ user }) => {
               setSearchQuery={setSearchQuery}
               placeholder="제품 검색"
               field="name"
+              onKeyPress={onCheckEnter}
             />
           </div>
         )}
