@@ -32,20 +32,22 @@ const Navbar = ({ user }) => {
   let navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState({ name: "" });
 
-  useEffect(() => {
-    const params = new URLSearchParams({
-      ...(searchQuery.name ? { name: searchQuery.name } : {}),
-      page: 1,
-    });
-    navigate("/?" + params.toString());
-  }, [searchQuery.name, navigate]);
+  // useEffect(() => {
+  //   const params = new URLSearchParams({
+  //     ...(searchQuery.name ? { name: searchQuery.name } : {}),
+  //     page: 1,
+  //   });
+  //   navigate("/?" + params.toString());
+  // }, [searchQuery.name, navigate]);
 
   const onCheckEnter = (event) => {
     if (event.key === "Enter") {
-      if (event.target.value === "") {
-        return navigate("/");
+      const value = event.target.value.trim();
+      if (!value) {
+        navigate("/");
+      } else {
+        navigate(`/?name=${value}&page=1`);
       }
-      navigate(`?name=${event.target.value}`);
     }
   };
   const handleLogout = () => {

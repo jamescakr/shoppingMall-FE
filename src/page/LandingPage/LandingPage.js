@@ -4,20 +4,25 @@ import { Row, Col, Container } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductList } from "../../features/product/productSlice";
+import ReactPaginate from "react-paginate";
 
 const LandingPage = () => {
   const dispatch = useDispatch();
 
-  const productList = useSelector((state) => state.product.productList);
-  const [query] = useSearchParams();
-  const name = query.get("name");
+  const { productList, totalPageNum, loading } = useSelector(
+    (state) => state.product
+  );
+  const [params, setParams] = useSearchParams();
+  const page = parseInt(params.get("page") || "1", 10);
+  const name = params.get("name") || "";
+
   useEffect(() => {
-    dispatch(
-      getProductList({
-        name,
-      })
-    );
-  }, [query]);
+    dispatch(getProductList({ page, name }));
+  }, [dispatch, page, name]);
+
+  const handlePageClick = ({ selected }) => {
+    setParams({ page: selected + 1, ...(name ? { name } : {}) });
+  };
 
   return (
     <Container>
@@ -38,6 +43,31 @@ const LandingPage = () => {
           </div>
         )}
       </Row>
+
+      {totalPageNum > 1 && (
+        <div className="display-center mb-5">
+          <ReactPaginate
+            pageCount={totalPageNum}
+            forcePage={page - 1}
+            onPageChange={handlePageClick}
+            nextLabel="Next >"
+            previousLabel="< Previous"
+            pageRangeDisplayed={5}
+            renderOnZeroPageCount={null}
+            containerClassName="pagination display-center list-style-none"
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousClassName="page-item"
+            previousLinkClassName="page-link"
+            nextClassName="page-item"
+            nextLinkClassName="page-link"
+            breakLabel="..."
+            breakClassName="page-item"
+            breakLinkClassName="page-link"
+            activeClassName="active"
+          />
+        </div>
+      )}
     </Container>
   );
 };
