@@ -56,8 +56,10 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
   }, [showDialog]);
 
   const handleClose = () => {
-    //모든걸 초기화시키고;
-    // 다이얼로그 닫아주기
+    setFormData(mode === "new" ? { ...InitialFormData } : selectedProduct);
+    setStock(mode === "new" ? [] : Object.entries(selectedProduct.stock));
+
+    setShowDialog(false);
   };
 
   const handleSubmit = (event) => {

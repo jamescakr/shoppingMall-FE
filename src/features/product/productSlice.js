@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../utils/api";
 import { showToastMessage } from "../common/uiSlice";
 
+const PAGE_SIZE = 1;
 // 비동기 액션 생성
 export const getProductList = createAsyncThunk(
   "products/getProductList",
@@ -30,6 +31,7 @@ export const createProduct = createAsyncThunk(
       const response = await api.post("/product", formData);
       if (response.status !== 200) throw new Error(response.error);
       dispatch(showToastMessage({ message: "상품생성 완료", status: "success" }));
+      return response.data.product; //
     } catch (error) {
       return rejectWithValue(error.error);
     }
@@ -76,6 +78,9 @@ const productSlice = createSlice({
       })
 
       .addCase(createProduct.fulfilled, (state, action) => {
+        state.productList.unshift(action.payload);
+        const totalItemNum = state.productList.length;
+        state.totalPageNum = Math.ceil(totalItemNum / PAGE_SIZE);
         state.loading = false;
         state.error = "";
         state.success = true;
