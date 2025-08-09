@@ -116,7 +116,8 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
   const handleStockChange = (value, index) => {
     //재고 수량 변환하기
     const newStock = [...stock];
-    newStock[index][1] = value;
+    const n = parseInt(value, 10);
+    newStock[index][1] = Number.isNaN(n) ? 0 : Math.max(0, n);
     setStock(newStock);
   };
 
@@ -235,6 +236,8 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
                     placeholder="number of stock"
                     value={item[1]}
                     required
+                    min={0}
+                    step={1}
                   />
                 </Col>
                 <Col sm={2}>
