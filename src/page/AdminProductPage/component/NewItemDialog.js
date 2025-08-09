@@ -52,13 +52,14 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
         setFormData({ ...InitialFormData });
         setStock([]);
       }
+      setStockError(false);
     }
   }, [showDialog]);
 
   const handleClose = () => {
     setFormData(mode === "new" ? { ...InitialFormData } : selectedProduct);
     setStock(mode === "new" ? [] : Object.entries(selectedProduct.stock));
-
+    setStockError(false);
     setShowDialog(false);
   };
 
